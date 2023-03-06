@@ -79,7 +79,7 @@ public class Home extends Activity {
         green.setOnClickListener(v -> {
             if (check){
                 Stash.put("color", "green");
-                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Green Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
@@ -90,7 +90,7 @@ public class Home extends Activity {
         blue.setOnClickListener(v -> {
             if (check){
                 Stash.put("color", "blue");
-                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Blue Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();

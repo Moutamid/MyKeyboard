@@ -162,12 +162,22 @@ public class SoftKeyboard extends InputMethodService
         mSymbolsShiftedKeyboard = new LatinKeyboard(this, R.xml.symbols_shift);
     }
 
+    @Override
+    public void onComputeInsets(Insets outInsets) {
+        super.onComputeInsets(outInsets);
+        if (!isFullscreenMode()) {
+            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        }
+    }
+
     /**
      * Called by the framework when your view for creating input needs to
      * be generated.  This will be called the first time your input method
      * is displayed, and every time it needs to be re-created such as due to
      * a configuration change.
      */
+
+
     @Override
     public View onCreateInputView() {
        // Constants.checkApp((Activity) getApplicationContext());
@@ -221,7 +231,7 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-
+        setCandidatesViewShown(true);
         // Reset our state.  We want to do this even if restarting, because
         // the underlying state of the text editor could have changed in any way.
         mComposing.setLength(0);
@@ -648,12 +658,12 @@ public class SoftKeyboard extends InputMethodService
      * candidates.
      */
     private void updateCandidates() {
-
         if (!mCompletionOn) {
             if (mComposing.length() > 0) {
                 ArrayList<String> list = new ArrayList<>();
                 list.add(mComposing.toString());
                 getFilter().filter(mComposing.toString());
+
                 /*dictionaryAll.clear();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     dictionaryAll = (ArrayList<String>) dictionary.stream().filter(word -> word.contains(mComposing.toString())).collect(Collectors.toList());
