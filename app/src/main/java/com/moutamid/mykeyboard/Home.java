@@ -24,8 +24,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+
+import com.fxn.stash.Stash;
 
 import java.util.List;
 
@@ -37,8 +42,11 @@ import java.util.List;
 public class Home extends Activity {
     boolean isInputDeviceEnabled = false;
     boolean isDefaultKeyboard = false;
-    Button btn, active;
-TextView messageTxt;
+    boolean check = false;
+    Button btn, active, done;
+    LinearLayout colorLayout;
+    TextView messageTxt;
+    CardView red, green, blue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +55,48 @@ TextView messageTxt;
         setTitle(R.string.settings_name);
         btn = findViewById(R.id.button);
         active = findViewById(R.id.active);
+        done = findViewById(R.id.done);
         messageTxt = findViewById(R.id.messageTxt);
+        colorLayout = findViewById(R.id.colorLayout);
+        red = findViewById(R.id.red);
+        green = findViewById(R.id.green);
+        blue = findViewById(R.id.blue);
+
+
+       // colorLayout.setVisibility(View.GONE);
+
+        red.setOnClickListener(v -> {
+            if (check){
+                Stash.put("color", "red");
+                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        green.setOnClickListener(v -> {
+            if (check){
+                Stash.put("color", "green");
+                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        blue.setOnClickListener(v -> {
+            if (check){
+                Stash.put("color", "blue");
+                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         active.setOnClickListener(v -> {
             Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
@@ -58,13 +107,17 @@ TextView messageTxt;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isInputDeviceEnabled && isDefaultKeyboard) {
-                    finish();
-                    Toast.makeText(Home.this, "Enjoy", Toast.LENGTH_LONG).show();
-                } else {
-                    InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-                    imeManager.showInputMethodPicker();
-                }
+                InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+                imeManager.showInputMethodPicker();
+            }
+        });
+
+        done.setOnClickListener(v -> {
+            if (isDefaultKeyboard && isInputDeviceEnabled){
+                finish();
+                Toast.makeText(this, "Enjoy", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Enable Keyboard First", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -109,11 +162,11 @@ TextView messageTxt;
              * Update UI
              */
             if (isInputDeviceEnabled && isDefaultKeyboard) {
+                check = false;
                 keyboardSetUpDone();
-            } else if (isInputDeviceEnabled) {
-                keyboardEnabled();
-            } else
-                keyBoardNotEnabled();
+            } else {
+                check = true;
+            }
         }
     }
 
@@ -129,6 +182,6 @@ TextView messageTxt;
 
     private void keyboardSetUpDone() {
         messageTxt.setVisibility(View.VISIBLE);
-        btn.setText(R.string.done);
+        done.setVisibility(View.VISIBLE);
     }
 }

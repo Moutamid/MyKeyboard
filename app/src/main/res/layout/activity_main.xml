@@ -1,45 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:paddingTop="30dp"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/messageTxt"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/start_using_keyboard"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
 
-    <Button
-        android:id="@+id/button"
-        android:textColor="#ffffff"
-        android:padding="10dp"
-        android:background="@drawable/button_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="enable keyboard"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/active"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/button_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activate Keyboard"
+            android:layout_marginBottom="15sp"
+            android:layout_above="@id/button"
+            android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/active"
-        android:textColor="#ffffff"
-        android:padding="10dp"
-        android:background="@drawable/button_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Activate Keyboard"
-        android:layout_marginBottom="15sp"
-        android:layout_above="@id/button"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/button"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/button_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="enable keyboard"
+            android:layout_centerHorizontal="true"/>
+
+
+        <LinearLayout
+            android:id="@+id/colorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12sp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="Select Keyboard Color and press Done : " />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/red"
+                    android:layout_width="32sp"
+                    android:layout_height="32sp"
+                    android:layout_margin="15sp"
+                    app:cardBackgroundColor="#ff0000"
+                    app:cardCornerRadius="6sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/green"
+                    android:layout_width="32sp"
+                    android:layout_height="32sp"
+                    android:layout_margin="15sp"
+                    app:cardBackgroundColor="#4CAF50"
+                    app:cardCornerRadius="6sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/blue"
+                    android:layout_width="32sp"
+                    android:layout_height="32sp"
+                    android:layout_margin="15sp"
+                    app:cardBackgroundColor="#3F51B5"
+                    app:cardCornerRadius="6sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/done"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/button_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:layout_marginTop="15sp"
+            android:visibility="gone"
+            android:layout_marginBottom="5sp"
+            android:layout_above="@id/button"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/messageTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/start_using_keyboard"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

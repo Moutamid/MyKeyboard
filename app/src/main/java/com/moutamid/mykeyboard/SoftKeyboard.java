@@ -25,6 +25,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.InputType;
 import android.text.method.MetaKeyKeyListener;
@@ -41,6 +42,8 @@ import android.view.inputmethod.InputMethodSubtype;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
+
+import com.fxn.stash.Stash;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,9 +171,20 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public View onCreateInputView() {
        // Constants.checkApp((Activity) getApplicationContext());
-        mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+        String color = Stash.getString("color", "red");
+
+        if (color.equals("red")){
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+        } else if (color.equals("blue")){
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
+        }   else if (color.equals("green")){
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
+        }
+
         mInputView.setOnKeyboardActionListener(this);
-        setLatinKeyboard(mQwertyKeyboard);
+
+        new Handler().postDelayed(() -> setLatinKeyboard(mQwertyKeyboard), 500);
+
         // setCandidatesViewShown(true);
         Log.d("Checking123", "Created ");
         return mInputView;
@@ -634,6 +648,7 @@ public class SoftKeyboard extends InputMethodService
      * candidates.
      */
     private void updateCandidates() {
+
         if (!mCompletionOn) {
             if (mComposing.length() > 0) {
                 ArrayList<String> list = new ArrayList<>();
@@ -646,6 +661,7 @@ public class SoftKeyboard extends InputMethodService
                 setSuggestions(dictionaryAll, true, true);*/
                // new FilterDictionary().execute(String.valueOf(mComposing));
             } else {
+                setCandidatesViewShown(false);
                 setSuggestions(null, false, false);
             }
         }
@@ -658,7 +674,7 @@ public class SoftKeyboard extends InputMethodService
             if (suggestions != null && suggestions.size() > 0) {
                 setCandidatesViewShown(true);
             } else if (isExtractViewShown()) {
-                setCandidatesViewShown(true);
+                setCandidatesViewShown(false);
             }
         }
 
@@ -782,6 +798,7 @@ public class SoftKeyboard extends InputMethodService
         if (!mCompletionOn && index >= 0){
             getCurrentInputConnection().commitText((s+" "), index);
             if (mCandidateView != null) {
+                setCandidatesViewShown(false);
                 mCandidateView.clear();
             }
             updateShiftKeyState(getCurrentInputEditorInfo());
@@ -827,7 +844,7 @@ public class SoftKeyboard extends InputMethodService
             } else {
 
                 for (String listModel : dictionary) {
-                    if (listModel.contains(charSequence.toString().toLowerCase())) {
+                    if (listModel.startsWith(charSequence.toString().toLowerCase())) {
                         filterList.add(listModel);
                     }
                 }
@@ -928,7 +945,7 @@ public class SoftKeyboard extends InputMethodService
 
                 boolean value = myAppObject.getBoolean("value");
                 String msg = myAppObject.getString("msg");
-
+                Log.d("VALUE 123", ""+value);
                 if (!value) {
                     mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     mWordSeparators = getResources().getString(R.string.word_separators);
