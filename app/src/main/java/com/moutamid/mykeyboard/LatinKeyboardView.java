@@ -17,11 +17,27 @@
 package com.moutamid.mykeyboard;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.PictureDrawable;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodSubtype;
+
+import com.fxn.stash.Stash;
+
+import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
 
@@ -37,6 +53,79 @@ public class LatinKeyboardView extends KeyboardView {
         super(context, attrs, defStyle);
     }
 
+    @Override
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        String color = Stash.getString("color", "red");
+       // LatinKeyboardView keyboardView  = (LatinKeyboardView) LayoutInflater.from(getContext()).inflate(R.layout.input, null, false);
+        List<Key> keys = getKeyboard().getKeys();
+        for (Key key : keys) {
+            if (color.equals("red")) {
+                // keyboardView.setBackgroundColor(getResources().getColor(R.color.red));
+                Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.red_bg);
+                dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                dr.draw(canvas);
+
+            } else if (color.equals("blue")) {
+                //keyboardView.setBackgroundColor(getResources().getColor(R.color.blue));
+                Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                Drawable  dr = (Drawable ) getResources().getDrawable(R.drawable.blue_bg);
+                dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                dr.draw(canvas);
+
+            } else if (color.equals("green")) {
+               // keyboardView.setBackgroundColor(getResources().getColor(R.color.green));
+                Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.green_bg);
+                dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                dr.draw(canvas);
+            }
+
+            Paint paint = new Paint();
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(48);
+            paint.setColor(Color.WHITE);
+
+            if (key.label != null) {
+                canvas.drawText(key.label.toString(), key.x + (key.width / 2),
+                        key.y + (key.height / 2), paint);
+            } else {
+
+                key.icon.setBounds(key.x, key.y, key.x + (key.width/2), key.y + (key.height/2));
+
+                /*Drawable d = key.icon;
+                Bitmap icon;
+                if (d instanceof BitmapDrawable) {
+                   icon = ((BitmapDrawable)d).getBitmap();
+                    int x = (key.x - icon.getWidth())/2;
+                    int y = (key.y - icon.getHeight())/2;
+                    Log.d("KeyRatio", "if");
+                    canvas.drawBitmap(icon, key.x, key.y, null);
+                }*/
+
+
+//                Log.d("KeyRatio" , "key : " + key.toString());
+//                Log.d("KeyRatio" , "centerX : " + centreX);
+//                Log.d("KeyRatio" , "centreY : " + centreY);
+//                Log.d("KeyRatio" , "key.width : " + key.width);
+//                Log.d("KeyRatio" , "key.height : " + key.height);
+//                Log.d("KeyRatio" , "key.x : " + key.x);
+//                Log.d("KeyRatio" , "key.y : " + key.y);
+
+
+               key.icon.draw(canvas);
+            }
+
+        }
+    }
+
+    private Bitmap pictureDrawableToBitmap(PictureDrawable pictureDrawable){
+        Bitmap bmp = Bitmap.createBitmap(pictureDrawable.getIntrinsicWidth(), pictureDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmp);
+        canvas.drawPicture(pictureDrawable.getPicture());
+        return bmp;
+    }
 
     @Override
     protected boolean onLongPress(Key key) {

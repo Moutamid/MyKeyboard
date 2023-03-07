@@ -43,7 +43,7 @@ public class Home extends Activity {
     boolean isInputDeviceEnabled = false;
     boolean isDefaultKeyboard = false;
     boolean check = false;
-    Button btn, active, done;
+    Button btn, active, done, colors;
     LinearLayout colorLayout;
     TextView messageTxt;
     CardView red, green, blue;
@@ -56,18 +56,24 @@ public class Home extends Activity {
         btn = findViewById(R.id.button);
         active = findViewById(R.id.active);
         done = findViewById(R.id.done);
+        colors = findViewById(R.id.colors);
         messageTxt = findViewById(R.id.messageTxt);
-        colorLayout = findViewById(R.id.colorLayout);
-        red = findViewById(R.id.red);
-        green = findViewById(R.id.green);
-        blue = findViewById(R.id.blue);
+//        colorLayout = findViewById(R.id.colorLayout);
+//        red = findViewById(R.id.red);
+//        green = findViewById(R.id.green);
+//        blue = findViewById(R.id.blue);
+
+        colors.setOnClickListener(v -> {
+            startActivity(new Intent(this, ColorActivity.class));
+        });
 
 
        // colorLayout.setVisibility(View.GONE);
 
-        red.setOnClickListener(v -> {
+/*        red.setOnClickListener(v -> {
+            Stash.put("color", "red");
             if (check){
-                Stash.put("color", "red");
+
                 Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
             } else {
@@ -77,8 +83,9 @@ public class Home extends Activity {
         });
 
         green.setOnClickListener(v -> {
+            Stash.put("color", "green");
             if (check){
-                Stash.put("color", "green");
+
                 Toast.makeText(this, "Green Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
             } else {
@@ -88,14 +95,15 @@ public class Home extends Activity {
         });
 
         blue.setOnClickListener(v -> {
+            Stash.put("color", "blue");
             if (check){
-                Stash.put("color", "blue");
+
                 Toast.makeText(this, "Blue Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         active.setOnClickListener(v -> {
@@ -165,6 +173,7 @@ public class Home extends Activity {
                 check = false;
                 keyboardSetUpDone();
             } else {
+                keyboardEnabled();
                 check = true;
             }
         }
@@ -177,7 +186,8 @@ public class Home extends Activity {
 
     private void keyboardEnabled() {
         messageTxt.setVisibility(View.GONE);
-        btn.setText(R.string.set_as_default);
+        done.setVisibility(View.GONE);
+
     }
 
     private void keyboardSetUpDone() {

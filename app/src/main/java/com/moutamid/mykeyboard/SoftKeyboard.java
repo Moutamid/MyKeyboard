@@ -23,6 +23,8 @@ import android.content.Context;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -110,7 +112,12 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
-        checkApp(getApplicationContext());
+        if (isNetworkConnected(getApplicationContext())) {
+            checkApp(getApplicationContext());
+        } else {
+            mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            mWordSeparators = getResources().getString(R.string.word_separators);
+        }
        // Constants.checkApp((Activity) getApplicationContext());
         Log.d("Checking123", "Started ");
     }
@@ -181,15 +188,15 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public View onCreateInputView() {
        // Constants.checkApp((Activity) getApplicationContext());
-        String color = Stash.getString("color", "red");
 
-        if (color.equals("red")){
+        mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+        /*if (color.equals("red")){
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
         } else if (color.equals("blue")){
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
         }   else if (color.equals("green")){
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
-        }
+        }*/
 
         mInputView.setOnKeyboardActionListener(this);
 
@@ -222,6 +229,8 @@ public class SoftKeyboard extends InputMethodService
         return mCandidateView;
     }
 
+
+
     /**
      * This is the main point where we do our initialization of the input method
      * to begin operating on an application.  At this point we have been
@@ -232,6 +241,8 @@ public class SoftKeyboard extends InputMethodService
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         setCandidatesViewShown(true);
+
+
         // Reset our state.  We want to do this even if restarting, because
         // the underlying state of the text editor could have changed in any way.
         mComposing.setLength(0);
@@ -966,6 +977,23 @@ public class SoftKeyboard extends InputMethodService
             }
 
         }).start();
+    }
+
+    public boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		/*if (mConnectManager != null) {
+			NetworkInfo[] mNetworkInfo = mConnectManager.getAllNetworkInfo();
+			for (int i = 0; i < mNetworkInfo.length; i++) {
+				if (mNetworkInfo[i].getState() == NetworkInfo.State.CONNECTED)
+					return true;
+			}
+		}
+		return false;*/
+
+        boolean connected = (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED);
+
+        return connected;
     }
 
 }
