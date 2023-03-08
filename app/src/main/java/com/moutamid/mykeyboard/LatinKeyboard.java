@@ -38,7 +38,7 @@ public class LatinKeyboard extends Keyboard {
      * visible while {@link InputMethodManager#shouldOfferSwitchingToNextInputMethod(IBinder)}
      * returns true. When this key becomes invisible, its width will be shrunk to zero.
      */
-    private Key mLanguageSwitchKey;
+    //private Key mLanguageSwitchKey;
     /**
      * Stores the size and other information of {@link #mModeChangeKey} when
      * {@link #mLanguageSwitchKey} is visible. This should be immutable and will be used only as a
@@ -72,10 +72,10 @@ public class LatinKeyboard extends Keyboard {
         } else if (key.codes[0] == Keyboard.KEYCODE_MODE_CHANGE) {
             mModeChangeKey = key;
             mSavedModeChangeKey = new LatinKey(res, parent, x, y, parser);
-        } else if (key.codes[0] == LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH) {
+        }/* else if (key.codes[0] == LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH) {
             mLanguageSwitchKey = key;
             mSavedLanguageSwitchKey = new LatinKey(res, parent, x, y, parser);
-        }
+        }*/
         return key;
     }
 
@@ -89,16 +89,16 @@ public class LatinKeyboard extends Keyboard {
             // and language switch key using the saved layout.
             mModeChangeKey.width = mSavedModeChangeKey.width;
             mModeChangeKey.x = mSavedModeChangeKey.x;
-            mLanguageSwitchKey.width = mSavedLanguageSwitchKey.width;
+            /*mLanguageSwitchKey.width = mSavedLanguageSwitchKey.width;
             mLanguageSwitchKey.icon = mSavedLanguageSwitchKey.icon;
-            mLanguageSwitchKey.iconPreview = mSavedLanguageSwitchKey.iconPreview;
+            mLanguageSwitchKey.iconPreview = mSavedLanguageSwitchKey.iconPreview;*/
         } else {
             // The language switch key should be hidden. Change the width of the mode change key
             // to fill the space of the language key so that the user will not see any strange gap.
             mModeChangeKey.width = mSavedModeChangeKey.width + mSavedLanguageSwitchKey.width;
-            mLanguageSwitchKey.width = 0;
+            /*mLanguageSwitchKey.width = 0;
             mLanguageSwitchKey.icon = null;
-            mLanguageSwitchKey.iconPreview = null;
+            mLanguageSwitchKey.iconPreview = null;*/
         }
     }
 
