@@ -90,7 +90,7 @@ public class SoftKeyboard extends InputMethodService
     public boolean mPredictionOn;
     public boolean mCompletionOn;
     public int mLastDisplayWidth;
-    public boolean mCapsLock;
+    public static boolean mCapsLock;
     public long mLastShiftTime;
     public long mMetaState;
 
@@ -189,13 +189,13 @@ public class SoftKeyboard extends InputMethodService
     public View onCreateInputView() {
        // Constants.checkApp((Activity) getApplicationContext());
         String color = Stash.getString("color", "red");
-        mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+       // mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
         if (color.equals("red")){
-            mInputView.setBackground(getResources().getDrawable(R.drawable.red_bg));
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
         } else if (color.equals("blue")){
-            mInputView.setBackground(getResources().getDrawable(R.drawable.blue_bg));
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
         }   else if (color.equals("green")){
-            mInputView.setBackground(getResources().getDrawable(R.drawable.green_bg));
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
         }
 
         mInputView.setOnKeyboardActionListener(this);
