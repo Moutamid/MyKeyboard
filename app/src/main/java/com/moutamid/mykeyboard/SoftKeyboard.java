@@ -188,15 +188,15 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public View onCreateInputView() {
        // Constants.checkApp((Activity) getApplicationContext());
-
+        String color = Stash.getString("color", "red");
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
-        /*if (color.equals("red")){
-            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+        if (color.equals("red")){
+            mInputView.setBackground(getResources().getDrawable(R.drawable.red_bg));
         } else if (color.equals("blue")){
-            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
+            mInputView.setBackground(getResources().getDrawable(R.drawable.blue_bg));
         }   else if (color.equals("green")){
-            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
-        }*/
+            mInputView.setBackground(getResources().getDrawable(R.drawable.green_bg));
+        }
 
         mInputView.setOnKeyboardActionListener(this);
 
@@ -355,6 +355,7 @@ public class SoftKeyboard extends InputMethodService
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
         // Apply the selected keyboard to the input view.
+        setInputView(onCreateInputView());
         setLatinKeyboard(mCurKeyboard);
         mInputView.closing();
         final InputMethodSubtype subtype = mInputMethodManager.getCurrentInputMethodSubtype();

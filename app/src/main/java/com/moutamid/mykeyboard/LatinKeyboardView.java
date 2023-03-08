@@ -33,6 +33,7 @@ import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.InputMethodSubtype;
 
 import com.fxn.stash.Stash;
@@ -57,25 +58,54 @@ public class LatinKeyboardView extends KeyboardView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         String color = Stash.getString("color", "red");
-       // LatinKeyboardView keyboardView  = (LatinKeyboardView) LayoutInflater.from(getContext()).inflate(R.layout.input, null, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.input, null, false);
+        LatinKeyboardView keyboardView = view.findViewById(R.id.keyboard);
+        LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
+        Log.d("KeyRatio", "color : " + color);
+        Log.d("KeyRatio", "view : " + (view == null));
+        Log.d("KeyRatio", "keyboardview : " + (keyboardView));
+        /*
+        if (color.equals("red")){
+            Log.d("KeyRatio", "if Red");
+            view.setBackgroundResource(R.color.red);
+            view.setBackground(getResources().getDrawable(R.drawable.red_bg));
+            view.setBackgroundColor(getResources().getColor(R.color.red));
+            keyboardView.setBackgroundColor(getResources().getColor(R.color.red));
+            keyboardView.setBackgroundResource(R.color.red);
+            keyboardView.setBackground(getResources().getDrawable(R.drawable.red_bg));
+        } else if (color.equals("blue")){
+            Log.d("KeyRatio", "if blue");
+            view.setBackgroundResource(R.color.blue);
+            view.setBackground(getResources().getDrawable(R.drawable.blue_bg));
+            view.setBackgroundColor(getResources().getColor(R.color.blue));
+            keyboardView.setBackgroundColor(getResources().getColor(R.color.blue));
+            keyboardView.setBackgroundResource(R.color.blue);
+            keyboardView.setBackground(getResources().getDrawable(R.drawable.blue_bg));
+        }   else if (color.equals("green")){
+            Log.d("KeyRatio", "if green");
+            view.setBackgroundResource(R.color.green);
+            view.setBackground(getResources().getDrawable(R.drawable.green_bg));
+            view.setBackgroundColor(getResources().getColor(R.color.green));
+            keyboardView.setBackgroundColor(getResources().getColor(R.color.green));
+            keyboardView.setBackgroundResource(R.color.green);
+            keyboardView.setBackground(getResources().getDrawable(R.drawable.green_bg));
+        }
+        */
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
             if (color.equals("red")) {
-                // keyboardView.setBackgroundColor(getResources().getColor(R.color.red));
                 Log.e("KEY", "Drawing key with code " + key.codes[0]);
                 Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.red_bg);
                 dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 dr.draw(canvas);
-
             } else if (color.equals("blue")) {
-                //keyboardView.setBackgroundColor(getResources().getColor(R.color.blue));
                 Log.e("KEY", "Drawing key with code " + key.codes[0]);
                 Drawable  dr = (Drawable ) getResources().getDrawable(R.drawable.blue_bg);
                 dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 dr.draw(canvas);
 
             } else if (color.equals("green")) {
-               // keyboardView.setBackgroundColor(getResources().getColor(R.color.green));
+
                 Log.e("KEY", "Drawing key with code " + key.codes[0]);
                 Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.green_bg);
                 dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
@@ -92,17 +122,16 @@ public class LatinKeyboardView extends KeyboardView {
                         key.y + (key.height / 2), paint);
             } else {
 
-                key.icon.setBounds(key.x, key.y, key.x + (key.width/2), key.y + (key.height/2));
+                //key.icon.setBounds(key.x, key.y, key.x+(key.width/2), key.y+(key.height/2));
 
-                /*Drawable d = key.icon;
+                Drawable d = key.icon;
                 Bitmap icon;
                 if (d instanceof BitmapDrawable) {
                    icon = ((BitmapDrawable)d).getBitmap();
                     int x = (key.x - icon.getWidth())/2;
                     int y = (key.y - icon.getHeight())/2;
-                    Log.d("KeyRatio", "if");
-                    canvas.drawBitmap(icon, key.x, key.y, null);
-                }*/
+                    canvas.drawBitmap(icon, key.x+(key.width/3), key.y+(key.height/3), null);
+                }
 
 
 //                Log.d("KeyRatio" , "key : " + key.toString());
@@ -114,7 +143,7 @@ public class LatinKeyboardView extends KeyboardView {
 //                Log.d("KeyRatio" , "key.y : " + key.y);
 
 
-               key.icon.draw(canvas);
+               //key.icon.draw(canvas);
             }
 
         }
@@ -139,7 +168,7 @@ public class LatinKeyboardView extends KeyboardView {
 
     void setSubtypeOnSpaceKey(final InputMethodSubtype subtype) {
         final LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
-        keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
+        //keyboard.setSpaceIcon(getResources().getDrawable(subtype.getIconResId()));
         invalidateAllKeys();
     }
 }
