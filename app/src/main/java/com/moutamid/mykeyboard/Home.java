@@ -17,8 +17,10 @@
 package com.moutamid.mykeyboard;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
@@ -44,13 +46,18 @@ public class Home extends Activity {
     boolean isDefaultKeyboard = false;
     boolean check = false;
     Button btn, active, done, colors;
-    LinearLayout colorLayout;
     TextView messageTxt;
-    CardView red, green, blue;
+
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
 
         setTitle(R.string.settings_name);
         btn = findViewById(R.id.button);
@@ -58,52 +65,11 @@ public class Home extends Activity {
         done = findViewById(R.id.done);
         colors = findViewById(R.id.colors);
         messageTxt = findViewById(R.id.messageTxt);
-//        colorLayout = findViewById(R.id.colorLayout);
-//        red = findViewById(R.id.red);
-//        green = findViewById(R.id.green);
-//        blue = findViewById(R.id.blue);
+
 
         colors.setOnClickListener(v -> {
             startActivity(new Intent(this, ColorActivity.class));
         });
-
-
-       // colorLayout.setVisibility(View.GONE);
-
-/*        red.setOnClickListener(v -> {
-            Stash.put("color", "red");
-            if (check){
-
-                Toast.makeText(this, "Red Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-        green.setOnClickListener(v -> {
-            Stash.put("color", "green");
-            if (check){
-
-                Toast.makeText(this, "Green Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-        blue.setOnClickListener(v -> {
-            Stash.put("color", "blue");
-            if (check){
-
-                Toast.makeText(this, "Blue Theme Applied to Keyboard", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Enable your Keyboard", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please disable your Keyboard First", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
 
         active.setOnClickListener(v -> {
@@ -121,9 +87,14 @@ public class Home extends Activity {
         });
 
         done.setOnClickListener(v -> {
-            if (isDefaultKeyboard && isInputDeviceEnabled){
-                finish();
-                Toast.makeText(this, "Enjoy", Toast.LENGTH_SHORT).show();
+            if (isDefaultKeyboard && isInputDeviceEnabled) {
+                progressDialog.show();
+                new Handler().postDelayed(() -> {
+                    progressDialog.dismiss();
+                    finish();
+                    Toast.makeText(this, "Enjoy", Toast.LENGTH_SHORT).show();
+                }, 5000);
+
             } else {
                 Toast.makeText(this, "Enable Keyboard First", Toast.LENGTH_SHORT).show();
             }
@@ -169,25 +140,20 @@ public class Home extends Activity {
             /**
              * Update UI
              */
+            //progressDialog.show();
             if (isInputDeviceEnabled && isDefaultKeyboard) {
-                check = false;
                 keyboardSetUpDone();
             } else {
-                keyboardEnabled();
+                //progressDialog.dismiss();
+                keyboardDisabled();
                 check = true;
             }
         }
     }
 
-    private void keyBoardNotEnabled() {
-        messageTxt.setVisibility(View.GONE);
-        btn.setText(R.string.enable_keyboard);
-    }
-
-    private void keyboardEnabled() {
+    private void keyboardDisabled() {
         messageTxt.setVisibility(View.GONE);
         done.setVisibility(View.GONE);
-
     }
 
     private void keyboardSetUpDone() {
