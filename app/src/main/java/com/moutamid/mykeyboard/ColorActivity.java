@@ -22,7 +22,7 @@ public class ColorActivity extends AppCompatActivity {
         blue = findViewById(R.id.blue);
         back = findViewById(R.id.back);
 
-        back.setOnClickListener(v -> finish());
+        back.setOnClickListener(v -> onBackPressed());
 
         red.setOnClickListener(v -> {
             Stash.put("color", "red");
