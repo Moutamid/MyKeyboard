@@ -57,6 +57,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -134,8 +135,8 @@ public class SoftKeyboard extends InputMethodService
             while ((mLine = reader.readLine()) != null) {
                 //process line
                 dictionary.add(mLine);
-                dictionaryAll.add(mLine);
             }
+            dictionary = new ArrayList<>(new LinkedHashSet<>(dictionary));
             //setSuggestions(list, false, false);
         } catch (IOException e) {
             //log the exception
@@ -555,7 +556,7 @@ public class SoftKeyboard extends InputMethodService
      */
     private void commitTyped(InputConnection inputConnection) {
         if (mComposing.length() > 0) {
-            inputConnection.commitText(mComposing, mComposing.length());
+            inputConnection.commitText((mComposing+" "), mComposing.length());
             mComposing.setLength(0);
             updateCandidates();
         }
@@ -805,20 +806,14 @@ public class SoftKeyboard extends InputMethodService
         Log.d("Checking123", "Picked index " + index);
         String s = dictionaryAll.get(index);
         Log.d("Checking123", "Picked " +s);
-        /*if (mCompletionOn && mCompletions != null && index >= 0
-                && index < mCompletions.length) {
 
-            Log.d("Checking123", "Picked Text " + mCompletions[index].getText().toString());
-
-            CompletionInfo ci = mCompletions[index];
-            getCurrentInputConnection().commitCompletion(ci);
-            if (mCandidateView != null) {
-                mCandidateView.clear();
-            }
-            updateShiftKeyState(getCurrentInputEditorInfo());
-        }*/
         if (!mCompletionOn && index >= 0){
-            getCurrentInputConnection().commitText((s+" "), index);
+            if (index == 0){
+                getCurrentInputConnection().commitText((s+" "), 1);
+            } else {
+                getCurrentInputConnection().commitText((s+" "), index);
+            }
+
             if (mCandidateView != null) {
                 setCandidatesViewShown(false);
                 mCandidateView.clear();
@@ -826,7 +821,7 @@ public class SoftKeyboard extends InputMethodService
             updateShiftKeyState(getCurrentInputEditorInfo());
         } else if (mComposing.length() > 0) {
             // If we were generating candidate suggestions for the current
-            // text, we would commit one of them here.  But for this sample,
+            // text, we would commit one of them here. But for this sample,
             // we will just commit the current text.
             commitTyped(getCurrentInputConnection());
         }
@@ -864,7 +859,6 @@ public class SoftKeyboard extends InputMethodService
             if (charSequence.toString().isEmpty()) {
                 filterList.addAll(dictionary);
             } else {
-
                 for (String listModel : dictionary) {
                     if (listModel.startsWith(charSequence.toString().toLowerCase())) {
                         filterList.add(listModel);

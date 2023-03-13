@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -135,7 +136,7 @@ public class CandidateView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int measuredWidth = resolveSize(50, widthMeasureSpec);
+        int measuredWidth = resolveSize(70, widthMeasureSpec);
         
         // Get the desired height of the icon menu view (last row of items does
         // not have a divider below)
@@ -271,10 +272,12 @@ public class CandidateView extends View {
 
         switch (action) {
         case MotionEvent.ACTION_DOWN:
+            Log.d("CheckAct", "DOWN");
             mScrolled = false;
             invalidate();
             break;
         case MotionEvent.ACTION_MOVE:
+            Log.d("CheckAct", "MOVE");
             if (y <= 0) {
                 // Fling up!?
                 if (mSelectedIndex >= 0) {
@@ -285,6 +288,7 @@ public class CandidateView extends View {
             invalidate();
             break;
         case MotionEvent.ACTION_UP:
+            Log.d("CheckAct", "UP " + mSelectedIndex);
             if (!mScrolled) {
                 if (mSelectedIndex >= 0) {
                     mService.pickSuggestionManually(mSelectedIndex);

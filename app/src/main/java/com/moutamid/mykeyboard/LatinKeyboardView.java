@@ -130,14 +130,6 @@ public class LatinKeyboardView extends KeyboardView {
     }
 
     */
-
-    private Bitmap pictureDrawableToBitmap(PictureDrawable pictureDrawable){
-        Bitmap bmp = Bitmap.createBitmap(pictureDrawable.getIntrinsicWidth(), pictureDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmp);
-        canvas.drawPicture(pictureDrawable.getPicture());
-        return bmp;
-    }
-
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {
