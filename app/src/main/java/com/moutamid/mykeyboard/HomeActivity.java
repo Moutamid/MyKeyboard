@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.moutamid.mykeyboard;
 
 import android.app.Activity;
@@ -26,59 +10,45 @@ import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
-
-import com.fxn.stash.Stash;
+import com.moutamid.mykeyboard.databinding.ActivityHomeBinding;
 
 import java.util.List;
 
-
-/**
- * Displays the IME preferences inside the input method setting.
- */
-
-public class Home extends Activity {
+public class HomeActivity extends Activity {
     boolean isInputDeviceEnabled = false;
     boolean isDefaultKeyboard = false;
     boolean check = false;
-    Button btn, active, done, colors;
-    TextView messageTxt;
 
     ProgressDialog progressDialog;
+
+    private ActivityHomeBinding b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        b = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(b.getRoot());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
 
         setTitle(R.string.settings_name);
-        btn = findViewById(R.id.button);
-        active = findViewById(R.id.active);
-        done = findViewById(R.id.done);
-        colors = findViewById(R.id.colors);
-        messageTxt = findViewById(R.id.messageTxt);
 
-
-        colors.setOnClickListener(v -> {
+        b.setColorBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, ColorActivity.class));
         });
 
-
-        active.setOnClickListener(v -> {
+        b.activateBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        b.enableKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
@@ -86,7 +56,7 @@ public class Home extends Activity {
             }
         });
 
-        done.setOnClickListener(v -> {
+        b.done.setOnClickListener(v -> {
             if (isDefaultKeyboard && isInputDeviceEnabled) {
                 progressDialog.show();
                 new Handler().postDelayed(() -> {
@@ -99,8 +69,6 @@ public class Home extends Activity {
                 Toast.makeText(this, "Enable Keyboard First", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     //to know when the picker has been closed
@@ -152,12 +120,12 @@ public class Home extends Activity {
     }
 
     private void keyboardDisabled() {
-        messageTxt.setVisibility(View.GONE);
-        done.setVisibility(View.GONE);
+        b.messageTxt.setVisibility(View.GONE);
+        b.done.setVisibility(View.GONE);
     }
 
     private void keyboardSetUpDone() {
-        messageTxt.setVisibility(View.VISIBLE);
-        done.setVisibility(View.VISIBLE);
+        b.messageTxt.setVisibility(View.VISIBLE);
+        b.done.setVisibility(View.VISIBLE);
     }
 }
