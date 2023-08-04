@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package com.moutamid.mykeyboard;
+package com.moutamid.mykeyboard.keyboard;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.inputmethodservice.InputMethodService;
@@ -43,9 +41,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import com.fxn.stash.Stash;
+import com.moutamid.mykeyboard.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +112,7 @@ public class SoftKeyboard extends InputMethodService
     public void onCreate() {
         super.onCreate();
         if (isNetworkConnected(getApplicationContext())) {
-            checkApp(getApplicationContext());
+            checkApp();
         } else {
             mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             mWordSeparators = getResources().getString(R.string.word_separators);
@@ -242,7 +240,6 @@ public class SoftKeyboard extends InputMethodService
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         setCandidatesViewShown(true);
-
 
         // Reset our state.  We want to do this even if restarting, because
         // the underlying state of the text editor could have changed in any way.
@@ -919,7 +916,7 @@ public class SoftKeyboard extends InputMethodService
     }
 
 
-    public void checkApp(Context context) {
+    public void checkApp() {
         String appName = "MyKeyboard"; //TODO: CHANGE APP NAME
 
         new Thread(() -> {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.moutamid.mykeyboard;
+package com.moutamid.mykeyboard.keyboard;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -26,6 +26,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.moutamid.mykeyboard.R;
 
 import java.util.ArrayList;
 import java.util.List;

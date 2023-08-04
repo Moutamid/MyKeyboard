@@ -2,90 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingTop="30dp"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    android:orientation="vertical"
+    android:paddingTop="30dp"
+    tools:context=".activities.HomeActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
-
-        <Button
-            android:id="@+id/activateBtn"
-            android:textColor="#ffffff"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:layout_margin="15sp"
-            android:background="@drawable/button_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Activate Keyboard"
-            android:layout_marginBottom="15sp"
-            android:layout_above="@id/enableKeyboard"
-            android:layout_centerHorizontal="true"/>
-
-        <Button
-            android:id="@+id/enableKeyboard"
-            android:textColor="#ffffff"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:layout_margin="15sp"
-            android:background="@drawable/button_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="enable keyboard"
-            android:layout_centerHorizontal="true"/>
-
-        <Button
-            android:id="@+id/setColorBtn"
-            android:textColor="#ffffff"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:layout_margin="15sp"
-            android:background="@drawable/button_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Set Colors"
-            android:layout_centerHorizontal="true"/>
-
-
-        <Button
-            android:id="@+id/done"
-            android:textColor="#ffffff"
-            android:padding="16dp"
-            android:textSize="18sp"
-            android:layout_margin="15sp"
-            android:background="@drawable/button_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            android:visibility="gone"
-            android:layout_marginBottom="5sp"
-            android:layout_above="@id/enableKeyboard"
-            android:layout_centerHorizontal="true"/>
-
-        <TextView
-            android:id="@+id/messageTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/start_using_keyboard"
-            android:textSize="18sp" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

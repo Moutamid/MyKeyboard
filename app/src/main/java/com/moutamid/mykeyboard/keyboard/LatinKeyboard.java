@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.moutamid.mykeyboard;
+package com.moutamid.mykeyboard.keyboard;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,6 +23,8 @@ import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+
+import com.moutamid.mykeyboard.R;
 
 public class LatinKeyboard extends Keyboard {
 

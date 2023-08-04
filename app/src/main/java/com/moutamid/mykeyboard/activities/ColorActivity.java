@@ -1,4 +1,4 @@
-package com.moutamid.mykeyboard;
+package com.moutamid.mykeyboard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
+import com.moutamid.mykeyboard.R;
 
 public class ColorActivity extends AppCompatActivity {
     MaterialCardView red, green, blue;
